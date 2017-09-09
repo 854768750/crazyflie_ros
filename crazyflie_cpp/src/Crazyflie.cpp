@@ -55,6 +55,7 @@ Crazyflie::Crazyflie(
     m_address = 0xE7E7E7E7E7;
     std::cout << "test" << std::endl;
   }
+  std::cout << std::hex << m_address << std::endl;
 
   if (success)
   {

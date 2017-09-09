@@ -55,6 +55,7 @@ Crazyflie::Crazyflie(
     m_address = 0xE7E7E7E7E7;
     std::cout << "test" << std::endl;
   }
+  std::cout << m_address << std::endl;
 
   if (success)
   {
@@ -88,7 +89,7 @@ Crazyflie::Crazyflie(
   else {
     throw std::runtime_error("Uri is not valid!");
   }
-  std::cout << m_devId << " " << m_channel << " " << m_datarate << " " << std::hex <<  m_address << std::endl;
+  //std::cout << m_devId << " " << m_channel << " " << m_datarate << " " << std::hex <<  m_address << std::endl;
 }
 
 void Crazyflie::logReset()

@@ -137,7 +137,7 @@ private:
     void pidReset()
     {
         m_pidX.reset();
-        m_pidY.reset();
+        m_pidZ.reset();
         m_pidZ.reset();
         m_pidYaw.reset();
     }
@@ -161,7 +161,7 @@ private:
                 }
                 else
                 {   
-		    m_thrust = m_init_thrust;
+		    m_thrust = 45000;
                     //m_thrust += 20000 * dt;
                     geometry_msgs::Twist msg;
                     msg.linear.z = m_thrust;
@@ -262,8 +262,6 @@ private:
     float m_startZ;
 public:
     double m_battery_threshold;
-    double m_init_thrust;
-
 
 };
 
@@ -281,12 +279,9 @@ int main(int argc, char **argv)
   n.param("frequency", frequency, 120.0);
   double battery_threshold;
   n.getParam("battery_threshold",battery_threshold);
-  double init_thrust;
-  n.getParam("init_thrust",init_thrust);
 
   Controller controller(worldFrame, frame, n);
   controller.m_battery_threshold=battery_threshold;
-  controller.m_init_thrust=init_thrust;
   controller.run(frequency);
 
   return 0;
