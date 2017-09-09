@@ -6,15 +6,6 @@ import math
 from geometry_msgs.msg import PoseStamped
 from std_srvs.srv import Empty
 
-#def start_circle(req):
-    #circle = 1
-    #rospy.loginfo("start circle")
-    #return EmptyResponse()
-
-#def stop_circle():
-    #circle = 0
-    #rospy.loginfo("stop circle")
-
 if __name__ == '__main__':
     rospy.init_node('publish_pose', anonymous=True)
     worldFrame = rospy.get_param("~worldFrame", "/world")

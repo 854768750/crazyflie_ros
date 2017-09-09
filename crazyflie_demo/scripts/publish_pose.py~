@@ -11,9 +11,9 @@ from std_srvs.srv import Empty
     #rospy.loginfo("start circle")
     #return EmptyResponse()
 
-def stop_circle():
-    circle = 0
-    rospy.loginfo("stop circle")
+#def stop_circle():
+    #circle = 0
+    #rospy.loginfo("stop circle")
 
 if __name__ == '__main__':
     rospy.init_node('publish_pose', anonymous=True)

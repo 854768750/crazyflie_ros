@@ -5,11 +5,11 @@
   <arg name="port" default="3883" />
 
   <arg name="uri" default="radio://0/80/250K/E7E7E7E701" />
-  <arg name="frame" default="cf1" />
-  <arg name="battery_threshold" default="3.2"/>
-  <arg name="x" default="-0.6" />
-  <arg name="y" default="-1.5" />
-  <arg name="z" default="1" />
+  <arg name="tracker" default="cf1" />
+  <arg name="goal" default="cf2" />
+  <arg name="x" default="0.0" />
+  <arg name="y" default="0.0" />
+  <arg name="z" default="1.0" />
 
   <include file="$(find crazyflie_driver)/launch/crazyflie_server.launch">
   </include>
@@ -35,30 +35,22 @@
     </node>
 
     <include file="$(find crazyflie_controller)/launch/crazyflie2_1.launch">
-      <arg name="frame" value="$(arg frame)" />
-      <arg name="battery_threshold" default="$(arg battery_threshold)"/>
+      <arg name="frame" value="$(arg tracker)" />
     </include>
-
-    <node name="pose" pkg="crazyflie_demo" type="publish_pose.py" output="screen">
-      <param name="name" value="goal" />
-      <param name="rate" value="120" />
+    
+    <node name="pose" pkg="crazyflie_demo" type="demo_follow.py" output="screen">
+      <param name="frame" value="$(arg tracker)" />
+      <param name="goal" value="$(arg goal)" />
       <param name="x" value="$(arg x)" />
       <param name="y" value="$(arg y)" />
       <param name="z" value="$(arg z)" />
     </node>
-    
-    <!--node name="pose" pkg="crazyflie_demo" type="demo1.py" output="screen">
-      <param name="frame" value="$(arg frame)" />
-    </node-->
 
-    <!--node pkg="tf" type="static_transform_publisher" name="baselink_broadcaster" args="0 0 0 0 0 0 1 $(arg frame) /crazyflie/base_link 100" /-->
+    <node pkg="tf" type="static_transform_publisher" name="baselink_broadcaster" args="0 0 0 0 0 0 1 $(arg tracker) /crazyflie/base_link 100" />
 
-    
-  </group>
-
-  <!-- run vrpn client -->
-  <node pkg="vrpn_client_ros" type="vrpn_client_node" name="vrpn_client_node" output="screen" required="true">
-    <rosparam subst_value="true">
+    <!-- run vrpn client -->
+    <node pkg="vrpn_client_ros" type="vrpn_client_node" name="vrpn_client_node" output="screen" required="true">
+      <rosparam subst_value="true">
         server: 192.168.0.1
         port: 3883
 
@@ -71,12 +63,18 @@
 
         # Must either specify refresh frequency > 0.0, or a list of trackers to create
         refresh_tracker_frequency: 1.0
-        trackers: cf2
+        #trackers: cf1
         #- FirstTracker
         #- SecondTracker
-    </rosparam>
-  </node>
-  <!--node pkg="rqt_plot" type="rqt_plot" name="rqt_plot" args="/crazyflie/vron_client_ros/cf1/pose/pose/position/z" /-->
+      </rosparam>
+      <param name="ip" value="$(arg ip)" />
+      <param name="port" value="$(arg port)" />
+      <param name="frame_id" value="/world" />
+      <param name="child_frame_id" value="$(arg tracker)" />
+    </node>
+  </group>
+
+  <!--node pkg="rqt_plot" type="rqt_plot" name="rqt_plot" /-->
 
 
   <!-- run rviz >

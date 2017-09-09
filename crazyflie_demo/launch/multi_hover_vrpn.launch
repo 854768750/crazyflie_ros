@@ -4,12 +4,10 @@
   <arg name="ip" default="192.168.0.1" />
   <arg name="port" default="3883" />
   <arg name="battery_threshold" default="3.2"/>
-  <arg name="init_thrust" default="47000"/>
-
 
   <arg name="uri1" default="radio://0/80/250K/E7E7E7E701" />
   <arg name="frame1" default="/cf1" />
-  <arg name="x1" default="-1.1" />
+  <arg name="x1" default="0" />
   <arg name="y1" default="-1.5" />
   <arg name="z1" default="1" />
 
@@ -46,7 +44,6 @@
     <include file="$(find crazyflie_controller)/launch/crazyflie2_1.launch">
       <arg name="frame" value="$(arg frame1)" />
       <arg name="battery_threshold" default="$(arg battery_threshold)"/>
-      <arg name="init_thrust" default="$(arg init_thrust)"/>
     </include>
 
     <node name="pose" pkg="crazyflie_demo" type="publish_pose.py" output="screen">
@@ -63,31 +60,6 @@
       <param name="freq" value="0.2" />
       <param name="lap" value="5" />
     </node-->
-
-    <!-- run vrpn client -->
-    <node pkg="vrpn_client_ros" type="vrpn_client_node" name="vrpn_client_node" output="screen" required="true">
-      <rosparam subst_value="true">
-        server: 192.168.0.1
-        port: 3883
-
-        update_frequency: 120.0
-        frame_id: world
-
-        # Use the VRPN server's time, or the client's ROS time.
-        use_server_time: false
-        broadcast_tf: true
-
-        # Must either specify refresh frequency > 0.0, or a list of trackers to create
-        refresh_tracker_frequency: 1.0
-        trackers: cf1
-        #- FirstTracker
-        #- SecondTracker
-      </rosparam>
-      <param name="ip" value="$(arg ip)" />
-      <param name="port" value="$(arg port)" />
-      <param name="frame_id" value="/world" />
-      <param name="child_frame_id" value="$(arg frame2)" />
-    </node>
   </group>
 
   <group ns="crazyflie2">
@@ -110,7 +82,6 @@
     <include file="$(find crazyflie_controller)/launch/crazyflie2_2.launch">
       <arg name="frame" value="$(arg frame2)" />
       <arg name="battery_threshold" default="$(arg battery_threshold)"/>
-      <arg name="init_thrust" default="$(arg init_thrust)"/>
     </include>
 
     <node name="pose" pkg="crazyflie_demo" type="publish_pose.py" output="screen">
@@ -127,10 +98,11 @@
       <param name="freq" value="0.2" />
       <param name="lap" value="5" />
     </node-->
-
-    <!-- run vrpn client -->
-    <node pkg="vrpn_client_ros" type="vrpn_client_node" name="vrpn_client_node" output="screen" required="true">
-      <rosparam subst_value="true">
+  </group>
+  
+  <!-- run vrpn client -->
+  <node pkg="vrpn_client_ros" type="vrpn_client_node" name="vrpn_client_node" output="screen" required="true">
+    <rosparam subst_value="true">
         server: 192.168.0.1
         port: 3883
 
@@ -146,12 +118,7 @@
         trackers: cf2
         #- FirstTracker
         #- SecondTracker
-      </rosparam>
-      <param name="ip" value="$(arg ip)" />
-      <param name="port" value="$(arg port)" />
-      <param name="frame_id" value="/world" />
-      <param name="child_frame_id" value="$(arg frame2)" />
-    </node>
-  </group>
+    </rosparam>
+  </node>
 
 </launch>

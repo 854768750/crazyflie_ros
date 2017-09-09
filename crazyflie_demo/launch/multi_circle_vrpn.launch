@@ -7,14 +7,14 @@
 
   <arg name="uri1" default="radio://0/80/250K/E7E7E7E701" />
   <arg name="frame1" default="/cf1" />
-  <arg name="x1" default="-0.3" />
-  <arg name="y1" default="-1.4" />
+  <arg name="x1" default="0" />
+  <arg name="y1" default="-1.5" />
   <arg name="z1" default="1" />
 
   <arg name="uri2" default="radio://0/80/250K/E7E7E7E702" />
   <arg name="frame2" default="/cf2" />
-  <arg name="x2" default="0.2" />
-  <arg name="y2" default="-1.4" />
+  <arg name="x2" default="-0.6" />
+  <arg name="y2" default="-1.5" />
   <arg name="z2" default="1" />
 
   <include file="$(find crazyflie_driver)/launch/crazyflie_server.launch">
@@ -54,36 +54,11 @@
       <param name="z" value="$(arg z1)" />
     </node-->
 
-    <node name="pose" pkg="crazyflie_demo" type="demo_circle.py" output="screen">
+    <node name="pose" pkg="crazyflie_demo" type="demo_multi_circle_1.py" output="screen">
       <param name="frame" value="$(arg frame1)" />
-      <param name="radius" value="0.25" />
+      <param name="radius" value="0.2" />
       <param name="freq" value="0.2" />
       <param name="lap" value="5" />
-    </node>
-
-    <!-- run vrpn client -->
-    <node pkg="vrpn_client_ros" type="vrpn_client_node" name="vrpn_client_node" output="screen" required="true">
-      <rosparam subst_value="true">
-        server: 192.168.0.1
-        port: 3883
-
-        update_frequency: 120.0
-        frame_id: world
-
-        # Use the VRPN server's time, or the client's ROS time.
-        use_server_time: false
-        broadcast_tf: true
-
-        # Must either specify refresh frequency > 0.0, or a list of trackers to create
-        refresh_tracker_frequency: 1.0
-        trackers: cf1
-        #- FirstTracker
-        #- SecondTracker
-      </rosparam>
-      <param name="ip" value="$(arg ip)" />
-      <param name="port" value="$(arg port)" />
-      <param name="frame_id" value="/world" />
-      <param name="child_frame_id" value="$(arg frame2)" />
     </node>
   </group>
 
@@ -117,16 +92,17 @@
       <param name="z" value="$(arg z2)" />
     </node-->
 
-    <node name="pose" pkg="crazyflie_demo" type="demo_circle.py" output="screen">
+    <node name="pose" pkg="crazyflie_demo" type="demo_multi_circle_2.py" output="screen">
       <param name="frame" value="$(arg frame2)" />
-      <param name="radius" value="0.25" />
+      <param name="radius" value="0.2" />
       <param name="freq" value="0.2" />
       <param name="lap" value="5" />
     </node>
-
-    <!-- run vrpn client -->
-    <node pkg="vrpn_client_ros" type="vrpn_client_node" name="vrpn_client_node" output="screen" required="true">
-      <rosparam subst_value="true">
+  </group>
+  
+  <!-- run vrpn client -->
+  <node pkg="vrpn_client_ros" type="vrpn_client_node" name="vrpn_client_node" output="screen" required="true">
+    <rosparam subst_value="true">
         server: 192.168.0.1
         port: 3883
 
@@ -142,12 +118,7 @@
         trackers: cf2
         #- FirstTracker
         #- SecondTracker
-      </rosparam>
-      <param name="ip" value="$(arg ip)" />
-      <param name="port" value="$(arg port)" />
-      <param name="frame_id" value="/world" />
-      <param name="child_frame_id" value="$(arg frame2)" />
-    </node>
-  </group>
+    </rosparam>
+  </node>
 
 </launch>
