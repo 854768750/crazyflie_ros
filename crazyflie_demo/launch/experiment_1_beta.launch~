@@ -9,13 +9,16 @@
   <arg name="frame1" default="/cf1" />
   <arg name="x1" default="0" />
   <arg name="y1" default="-1.5" />
-  <arg name="z1" default="1" />
+  <arg name="z1" default="0.7" />
 
   <arg name="uri2" default="radio://0/80/250K/E7E7E7E702" />
   <arg name="frame2" default="/cf2" />
   <arg name="x2" default="-0.6" />
   <arg name="y2" default="-1.5" />
-  <arg name="z2" default="1" />
+  <arg name="z2" default="1.2" />
+  <arg name="gama" default="0.6" />
+  <arg name="N" default="2" />
+  <arg name="w0" default="0.5" />
 
   <include file="$(find crazyflie_driver)/launch/crazyflie_server.launch">
   </include>
@@ -54,11 +57,14 @@
       <param name="z" value="$(arg z1)" />
     </node-->
 
-    <node name="pose" pkg="crazyflie_demo" type="demo_multi_circle_1.py" output="screen">
-      <param name="frame" value="$(arg frame1)" />
-      <param name="radius" value="0.2" />
-      <param name="freq" value="0.2" />
-      <param name="lap" value="5" />
+    <node name="pose" pkg="crazyflie_demo" type="experiment_1_cf1_beta.py" output="screen">
+      <param name="frame1" value="$(arg frame1)" />
+      <param name="x" value="$(arg x1)" />
+      <param name="y" value="$(arg y1)" />
+      <param name="z" value="$(arg z1)" />
+      <param name="gama" value="$(arg gama)" />
+      <param name="N" value="$(arg N)" />
+      <param name="w0" value="$(arg w0)" />
     </node>
   </group>
 
@@ -92,11 +98,14 @@
       <param name="z" value="$(arg z2)" />
     </node-->
 
-    <node name="pose" pkg="crazyflie_demo" type="demo_multi_circle_2.py" output="screen">
+    <node name="pose" pkg="crazyflie_demo" type="demo_circle.py" output="screen">
       <param name="frame" value="$(arg frame2)" />
-      <param name="radius" value="0.2" />
-      <param name="freq" value="0.2" />
-      <param name="lap" value="5" />
+      <param name="x" value="$(arg x2)" />
+      <param name="y" value="$(arg y2)" />
+      <param name="z" value="$(arg z2)" />
+      <param name="radius" value="0.5" />
+      <param name="omega" value="$(arg w0)" />
+      <param name="lap" value="50" />
     </node>
   </group>
   
@@ -115,7 +124,7 @@
 
         # Must either specify refresh frequency > 0.0, or a list of trackers to create
         refresh_tracker_frequency: 1.0
-        trackers: cf2
+        #trackers: cf2
         #- FirstTracker
         #- SecondTracker
     </rosparam>

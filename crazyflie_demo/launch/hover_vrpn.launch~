@@ -4,8 +4,8 @@
   <arg name="ip" default="192.168.0.1" />
   <arg name="port" default="3883" />
 
-  <arg name="uri" default="radio://0/80/250K/E7E7E7E701" />
-  <arg name="frame" default="cf1" />
+  <arg name="uri" default="radio://0/80/250K/E7E7E7E702" />
+  <arg name="frame" default="cf2" />
   <arg name="battery_threshold" default="3.2"/>
   <arg name="x" default="-0.6" />
   <arg name="y" default="-1.5" />
@@ -34,7 +34,7 @@
       <param name="use_crazyflie_controller" value="True" />
     </node>
 
-    <include file="$(find crazyflie_controller)/launch/crazyflie2_1.launch">
+    <include file="$(find crazyflie_controller)/launch/crazyflie2_2.launch">
       <arg name="frame" value="$(arg frame)" />
       <arg name="battery_threshold" default="$(arg battery_threshold)"/>
     </include>

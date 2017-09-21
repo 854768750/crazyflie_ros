@@ -137,7 +137,7 @@ private:
     void pidReset()
     {
         m_pidX.reset();
-        m_pidZ.reset();
+        m_pidY.reset();
         m_pidZ.reset();
         m_pidYaw.reset();
     }
@@ -161,8 +161,8 @@ private:
                 }
                 else
                 {   
-		    m_thrust = 45000;
-                    //m_thrust += 20000 * dt;
+		    //m_thrust = 47000;
+                    m_thrust += 20000 * dt;
                     geometry_msgs::Twist msg;
                     msg.linear.z = m_thrust;
                     m_pubNav.publish(msg);

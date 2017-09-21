@@ -40,14 +40,14 @@
       <param name="z" value="$(arg z)" />
     </node-->
     
-    <node name="pose" pkg="crazyflie_demo" type="demo_multi_circle_1.py" output="screen">
-      <param name="frame1" value="$(arg frame)" />
+    <node name="pose" pkg="crazyflie_demo" type="demo_circle.py" output="screen">
+      <param name="frame" value="$(arg frame)" />
       <param name="x" value="$(arg x)" />
       <param name="y" value="$(arg y)" />
       <param name="z" value="$(arg z)" />
       <param name="radius" value="0.25" />
       <param name="freq" value="1" />
-      <param name="lap" value="5" />
+      <param name="lap" value="50" />
     </node>
 
     <node pkg="tf" type="static_transform_publisher" name="baselink_broadcaster" args="0 0 0 0 0 0 1 $(arg frame) /crazyflie/base_link 100" />
