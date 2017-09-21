@@ -10,15 +10,18 @@
   <arg name="x1" default="0" />
   <arg name="y1" default="-1.5" />
   <arg name="z1" default="0.7" />
+  <arg name="v1" default="1" />
 
   <arg name="uri2" default="radio://0/80/250K/E7E7E7E702" />
   <arg name="frame2" default="/cf2" />
   <arg name="x2" default="-0.6" />
   <arg name="y2" default="-1.5" />
   <arg name="z2" default="1.2" />
+  <arg name="v2" default="1" />
   <arg name="gama" default="0.6" />
   <arg name="N" default="2" />
   <arg name="w0" default="0.5" />
+  
 
   <include file="$(find crazyflie_driver)/launch/crazyflie_server.launch">
   </include>
@@ -59,16 +62,18 @@
 
     <node name="pose" pkg="crazyflie_demo" type="experiment_1_cf1_beta.py" output="screen">
       <param name="frame1" value="$(arg frame1)" />
+      <param name="frame2" value="$(arg frame2)" />
       <param name="x" value="$(arg x1)" />
       <param name="y" value="$(arg y1)" />
       <param name="z" value="$(arg z1)" />
+      <param name="vel" value="$(arg v1)" />
       <param name="gama" value="$(arg gama)" />
       <param name="N" value="$(arg N)" />
       <param name="w0" value="$(arg w0)" />
     </node>
   </group>
 
-  <group ns="crazyflie2">
+  <!--group ns="crazyflie2">
     <include file="$(find crazyflie_driver)/launch/crazyflie_add.launch">
       <arg name="uri" value="$(arg uri2)" />
       <arg name="tf_prefix" value="crazyflie2" />
@@ -90,13 +95,13 @@
       <arg name="battery_threshold" default="$(arg battery_threshold)"/>
     </include>
 
-    <!--node name="pose" pkg="crazyflie_demo" type="publish_pose.py" output="screen">
+    <node name="pose" pkg="crazyflie_demo" type="publish_pose.py" output="screen">
       <param name="name" value="goal" />
       <param name="rate" value="120" />
       <param name="x" value="$(arg x2)" />
       <param name="y" value="$(arg y2)" />
       <param name="z" value="$(arg z2)" />
-    </node-->
+    </node>
 
     <node name="pose" pkg="crazyflie_demo" type="demo_circle.py" output="screen">
       <param name="frame" value="$(arg frame2)" />
@@ -106,8 +111,9 @@
       <param name="radius" value="0.5" />
       <param name="omega" value="$(arg w0)" />
       <param name="lap" value="50" />
+      <param name="vel" value="$(arg v2)" />
     </node>
-  </group>
+  </group-->
   
   <!-- run vrpn client -->
   <node pkg="vrpn_client_ros" type="vrpn_client_node" name="vrpn_client_node" output="screen" required="true">

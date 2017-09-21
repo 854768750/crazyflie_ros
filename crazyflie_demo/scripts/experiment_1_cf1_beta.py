@@ -13,6 +13,7 @@ if __name__ == '__main__':
     worldFrame = rospy.get_param("~worldFrame", "/world")
     frame1 = rospy.get_param("~frame1")
     frame2 = rospy.get_param("~frame2")
+    v1 = rospy.get_param("~vel")
     gama = rospy.get_param("~gama")
     N = rospy.get_param("~N")
     w0 = rospy.get_param("~w0")
@@ -68,11 +69,11 @@ if __name__ == '__main__':
 	    pre_pose_2.pose.position, pre_pose_2.pose.orientation = listener.lookupTransform(worldFrame, frame2, t2)
 	    pre_time_1 = t1
 	    pre_time_2 = t2
-	   	   break
+	    break
 
     # calculation of velocity and omega
-    t_start= rospy.Time.now().to_sec()
-    t_now=t_start
+    #t_start= rospy.Time.now().to_sec()
+    #t_now=t_start
     while not rospy.is_shutdown():
         msg.header.seq += 1
         msg.header.stamp = rospy.Time.now()
@@ -92,22 +93,19 @@ if __name__ == '__main__':
 	    theta2 = math.atan2(dy2,dx2)
 	    pre_time_1 = t1
 	    pre_time_2 = t2
-"""
-        u1=w0+gama/N*math.sin(theta2-theta1)
-        u2=w0+gama/n*math.sin(theta1-theta2)           
-        theta1=(theta1+u1*t)%xx
-        theta2=(theta2+u2*t)%xx
-        x1+=v1*t*cos(theta1)
-        y1+=v1*t*sin(theta1)
-        x2+=v2*t*cos(theta2)
-        y2+=v2*t*sin(theta2)
-
-        msg.pose.position.x = x
-        msg.pose.position.y = y
-        msg.pose.position.z = z
-	t_now= rospy.Time.now().to_sec()
-"""
-        #pub.publish(msg)
+	    u1 = w0 + gama / N * math.sin(theta2 - theta1)
+    	    u2 = w0 + gama / N * math.sin(theta1 - theta2) 
+	    theta1 = theta1 + u1 * dt1
+    	    theta2 = theta2 + u2 * dt2
+	    x1 = x1 + v1 * dt1 * math.cos(theta1)
+            y1 = y1 + v1 * dt1 * math.sin(theta1)
+            #x2 = x2 + v2 * dt2 * math.cos(theta2)
+            #y2 = y2 + v2 * dt2 * math.sin(theta2)
+	    msg.pose.position.x = x
+            msg.pose.position.y = y
+            msg.pose.position.z = z
+	    #t_now= rospy.Time.now().to_sec()
+	    pub.publish(msg)
 
 
 """

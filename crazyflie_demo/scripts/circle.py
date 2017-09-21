@@ -18,11 +18,13 @@ class Circle():
         self.y = rospy.get_param("~y")
         self.z = rospy.get_param("~z")
 	self.omega = rospy.get_param("~omega")
+	self.vel = rospy.get_param("~vel")
 	self.lap = rospy.get_param("~lap")
         self.pubGoal = rospy.Publisher('goal', PoseStamped, queue_size=1)
         self.listener = TransformListener()
         self.goals = goals
         self.goalIndex = 0
+	self.radius = self.vel / self.omega
 
     def run(self):
         self.listener.waitForTransform(self.worldFrame, self.frame, rospy.Time(), rospy.Duration(5.0))
