@@ -175,7 +175,7 @@ private:
                 m_goal.pose.position.z = m_startZ ;
                 tf::StampedTransform transform;
                 m_listener.lookupTransform(m_worldFrame, m_frame, ros::Time(0), transform);
-                if (transform.getOrigin().z() <= m_startZ + 0.10) {
+                if (transform.getOrigin().z() <= m_startZ + 0.15) {
                     m_state = Idle;
                     geometry_msgs::Twist msg;
                     m_pubNav.publish(msg);
@@ -218,7 +218,7 @@ private:
                 msg.linear.z = m_pidZ.update(0.0, targetDrone.pose.position.z);
                 msg.angular.z = m_pidYaw.update(0.0, yaw);
                 m_pubNav.publish(msg);
-		if(msg.linear.z>63500)ROS_WARN("thrust is more than 62000!");
+		if(msg.linear.z>65000)ROS_WARN("thrust is more than 65000!");
 
 
             }

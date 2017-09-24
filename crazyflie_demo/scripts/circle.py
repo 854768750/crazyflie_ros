@@ -17,14 +17,16 @@ class Circle():
         self.x = rospy.get_param("~x")
         self.y = rospy.get_param("~y")
         self.z = rospy.get_param("~z")
-	self.omega = rospy.get_param("~omega")
 	self.vel = rospy.get_param("~vel")
+        self.omega = rospy.get_param("~omega")
 	self.lap = rospy.get_param("~lap")
+	self.freq = self.omega/2/3.1415926
         self.pubGoal = rospy.Publisher('goal', PoseStamped, queue_size=1)
         self.listener = TransformListener()
         self.goals = goals
         self.goalIndex = 0
 	self.radius = self.vel / self.omega
+        #rospy.loginfo("radius:%lf  vel:%lf  omega:%lf",self.radius,self.vel,self.omega)
 
     def run(self):
         self.listener.waitForTransform(self.worldFrame, self.frame, rospy.Time(), rospy.Duration(5.0))
@@ -56,9 +58,9 @@ class Circle():
                    and math.fabs(position[2] - self.z) < 0.15 \
                    and math.fabs(rpy[2] - self.goals[self.goalIndex][3]) < math.radians(10) \
                    and self.goalIndex < len(self.goals) - 2:
-                        rospy.sleep(self.goals[self.goalIndex][4])
+                        rospy.sleep(2)
                         self.goalIndex += 1
-			rospy.loginfo("Index:%lf",self.goalIndex)
+			#rospy.loginfo("Index:%lf",self.goalIndex)
 			if self.goalIndex == len(self.goals) - 2:
 			    break
 
@@ -78,7 +80,7 @@ class Circle():
             goal.pose.orientation.w = quaternion[3]
             self.pubGoal.publish(goal)
 	    t_now= rospy.Time.now().to_sec()
-	    rospy.loginfo("t_now-t_start:%lf",t_now-t_start)
+	    #rospy.loginfo("t_now-t_start:%lf",t_now-t_start)
 
       	while not rospy.is_shutdown():
             goal.header.seq += 1

@@ -11,8 +11,8 @@
   <arg name="y1" default="-1.5" />
   <arg name="z1" default="1" />
 
-  <arg name="uri2" default="radio://0/80/250K/E7E7E7E702" />
-  <arg name="frame2" default="/cf2" />
+  <arg name="uri2" default="radio://0/80/250K/E7E7E7E703" />
+  <arg name="frame2" default="/cf3" />
   <arg name="x2" default="-0.6" />
   <arg name="y2" default="-1.5" />
   <arg name="z2" default="1" />
@@ -79,7 +79,7 @@
       <param name="joy_topic" value="/joy" />
     </node>
 
-    <include file="$(find crazyflie_controller)/launch/crazyflie2_2.launch">
+    <include file="$(find crazyflie_controller)/launch/crazyflie2_3.launch">
       <arg name="frame" value="$(arg frame2)" />
       <arg name="battery_threshold" default="$(arg battery_threshold)"/>
     </include>
@@ -106,7 +106,7 @@
         server: 192.168.0.1
         port: 3883
 
-        update_frequency: 120.0
+        update_frequency: 360.0
         frame_id: world
 
         # Use the VRPN server's time, or the client's ROS time.

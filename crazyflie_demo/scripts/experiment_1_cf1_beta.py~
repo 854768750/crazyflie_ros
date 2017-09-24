@@ -41,8 +41,8 @@ if __name__ == '__main__':
     msg.pose.orientation.z = quaternion[2]
     msg.pose.orientation.w = quaternion[3]
 
-    #listener.waitForTransform(worldFrame, frame1, rospy.Time(), rospy.Duration(5.0))
-    #listener.waitForTransform(worldFrame, frame2, rospy.Time(), rospy.Duration(5.0))
+    listener.waitForTransform(worldFrame, frame1, rospy.Time(), rospy.Duration(5.0))
+    listener.waitForTransform(worldFrame, frame2, rospy.Time(), rospy.Duration(5.0))
     
     # wait for cf1 to reach initial pose
     while not rospy.is_shutdown():
@@ -53,9 +53,9 @@ if __name__ == '__main__':
         if listener.canTransform(worldFrame, frame1, t):
             position, quaternion = listener.lookupTransform(worldFrame, frame1, t)
             rpy = tf.transformations.euler_from_quaternion(quaternion)
-            if     math.fabs(position[0] - x) < 0.15 \
-               and math.fabs(position[1] - y) < 0.15 \
-               and math.fabs(position[2] - z) < 0.15 \
+            if     math.fabs(position[0] - x1) < 0.15 \
+               and math.fabs(position[1] - y1) < 0.15 \
+               and math.fabs(position[2] - z1) < 0.15 \
                and math.fabs(rpy[2] - 0) < math.radians(10) :
                    rospy.sleep(5)
 	   	   break
@@ -65,8 +65,14 @@ if __name__ == '__main__':
 	t1 = listener.getLatestCommonTime(worldFrame, frame1)
 	t2 = listener.getLatestCommonTime(worldFrame, frame2)
         if (listener.canTransform(worldFrame, frame1, t1) and listener.canTransform(worldFrame, frame2, t2)):
-            pre_pose_1.pose.position, pre_pose_1.pose.orientation = listener.lookupTransform(worldFrame, frame1, t1)
-	    pre_pose_2.pose.position, pre_pose_2.pose.orientation = listener.lookupTransform(worldFrame, frame2, t2)
+            position1, quaternion1 = listener.lookupTransform(worldFrame, frame1, t1)
+	    position2, quaternion2 = listener.lookupTransform(worldFrame, frame2, t2)
+	    pre_pose_1.pose.position.x = position1[0]
+	    pre_pose_1.pose.position.y = position1[1]
+	    pre_pose_1.pose.position.z = position1[2]
+	    pre_pose_2.pose.position.x = position2[0]
+	    pre_pose_2.pose.position.y = position2[1]
+	    pre_pose_2.pose.position.z = position2[2]
 	    pre_time_1 = t1
 	    pre_time_2 = t2
 	    break
@@ -74,38 +80,51 @@ if __name__ == '__main__':
     # calculation of velocity and omega
     #t_start= rospy.Time.now().to_sec()
     #t_now=t_start
+    rospy.loginfo("start to follow") 
     while not rospy.is_shutdown():
         msg.header.seq += 1
         msg.header.stamp = rospy.Time.now()
-	t=t_now-t_start
+	#t=t_now-t_start
         t1 = listener.getLatestCommonTime(worldFrame, frame1)
 	t2 = listener.getLatestCommonTime(worldFrame, frame2)
 	if (listener.canTransform(worldFrame, frame1, t1) and listener.canTransform(worldFrame, frame2, t2)):
 	    position1, quaternion1 = listener.lookupTransform(worldFrame, frame1, t1)	 	
-	    position2, quaternion2 = listener.lookupTransform(worldFrame, frame2, t2)	 	
+	    position2, quaternion2 = listener.lookupTransform(worldFrame, frame2, t2)	
+	    #t1 = rospy.Time.now()
+ 	    #t2 = rospy.Time.now() 	
 	    dt1 = t1-pre_time_1
 	    dt2 = t2-pre_time_2
-	    dx1 = position1.x - pre_pose_1.pose.position.x 
-	    dy1 = position1.y - pre_pose_1.pose.position.y 
-	    dx2 = position2.x - pre_pose_2.pose.position.x 
-	    dy2 = position2.y - pre_pose_2.pose.position.y 
+	    #position1[0] = x1
+    	    #position1[1] = y1    
+	    dx1 = x1 - pre_pose_1.pose.position.x
+	    dy1 = y1 - pre_pose_1.pose.position.y
+	    dx2 = position2[0] - pre_pose_2.pose.position.x
+	    dy2 = position2[1] - pre_pose_2.pose.position.y
 	    theta1 = math.atan2(dy1,dx1)
 	    theta2 = math.atan2(dy2,dx2)
 	    pre_time_1 = t1
 	    pre_time_2 = t2
 	    u1 = w0 + gama / N * math.sin(theta2 - theta1)
-    	    u2 = w0 + gama / N * math.sin(theta1 - theta2) 
-	    theta1 = theta1 + u1 * dt1
-    	    theta2 = theta2 + u2 * dt2
-	    x1 = x1 + v1 * dt1 * math.cos(theta1)
-            y1 = y1 + v1 * dt1 * math.sin(theta1)
+    	    #u2 = w0 + gama / N * math.sin(theta1 - theta2) 
+	    theta1 = theta1 + u1 * (dt1.to_sec())
+    	    #theta2 = theta2 + u2 * (dt2.to_sec())
+	    pre_pose_1.pose.position.x = position2[0]
+	    pre_pose_1.pose.position.y = position2[1]
+ 	    pre_pose_2.pose.position.x = position2[0]
+	    pre_pose_2.pose.position.y = position2[1]
+	    x1 = x1 + v1 * (dt1.to_sec()) * math.cos(theta1)
+            y1 = y1 + v1 * (dt2.to_sec()) * math.sin(theta1)
             #x2 = x2 + v2 * dt2 * math.cos(theta2)
             #y2 = y2 + v2 * dt2 * math.sin(theta2)
-	    msg.pose.position.x = x
-            msg.pose.position.y = y
-            msg.pose.position.z = z
+            x1 = max(min(x1, 2), -2)
+            y1 = max(min(y1, 2), -2)
+	    msg.pose.position.x = x1
+            msg.pose.position.y = y1
+            msg.pose.position.z = z1
 	    #t_now= rospy.Time.now().to_sec()
 	    pub.publish(msg)
+	    rospy.loginfo("x:%lf  y:%lf",msg.pose.position.x,msg.pose.position.y)
+	    rospy.sleep(0.1)
 
 
 """
