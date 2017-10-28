@@ -215,7 +215,8 @@ private:
                 geometry_msgs::Twist msg;
                 msg.linear.y = m_pidX.update(0, targetDrone.pose.position.x);
                 msg.linear.x = m_pidY.update(0.0, targetDrone.pose.position.y);
-                msg.linear.z = m_pidZ.update(0.0, targetDrone.pose.position.z);
+                msg.linear.z = m_pidZ.update(0.0, targetDrone.pose.position.z)/cos(msg.linear.x/180*3.14159)/cos(msg.linear.y/180*3.14159);
+	 	msg.linear.z = std::min(msg.linear.z,65000.0);
                 msg.angular.z = m_pidYaw.update(0.0, yaw);
                 m_pubNav.publish(msg);
 		if(msg.linear.z>65000)ROS_WARN("thrust is more than 65000!");
