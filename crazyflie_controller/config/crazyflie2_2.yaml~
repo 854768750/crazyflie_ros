@@ -3,31 +3,31 @@ PIDs:
     kp: 35.0
     kd: 22.0
     ki: 0.0
-    minOutput: -20.0
-    maxOutput: 20.0
+    minOutput: -15.0
+    maxOutput: 15.0
     integratorMin: -0.1
     integratorMax: 0.1
   Y:
     kp: 35.0
     kd: 22.0
     ki: 0.0
-    minOutput: -20.0
-    maxOutput: 20.0
+    minOutput: -15.0
+    maxOutput: 15.0
     integratorMin: -0.1
     integratorMax: 0.1
   Z:
-    kp: 10000.0
+    kp: 12000.0
     kd: 30000.0
-    ki: 22500.0
-    minOutput: 40000.0
+    ki: 23000.0
+    minOutput: 42000.0
     maxOutput: 65000.0
-    integratorMin: -2.1
-    integratorMax: 2.1
+    integratorMin: -2.2
+    integratorMax: 2.2
   Yaw:
     kp: -200.0
     kd: -20.0
     ki: 0.0
-    minOutput: -20.0
-    maxOutput: 20.0
+    minOutput: -150.0
+    maxOutput: 150.0
     integratorMin: 0.0
     integratorMax: 0.0

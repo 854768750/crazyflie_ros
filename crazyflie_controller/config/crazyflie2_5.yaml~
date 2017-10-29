@@ -3,16 +3,16 @@ PIDs:
     kp: 35.0
     kd: 22.0
     ki: 0.0
-    minOutput: -20.0
-    maxOutput: 20.0
+    minOutput: -10.0
+    maxOutput: 10.0
     integratorMin: -0.1
     integratorMax: 0.1
   Y:
     kp: 35.0
     kd: 22.0
     ki: 0.0
-    minOutput: -20.0
-    maxOutput: 20.0
+    minOutput: -10.0
+    maxOutput: 10.0
     integratorMin: -0.1
     integratorMax: 0.1
   Z:
