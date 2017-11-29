@@ -9,11 +9,12 @@ from std_srvs.srv import Empty
 if __name__ == '__main__':
     rospy.init_node('publish_pose', anonymous=True)
     worldFrame = rospy.get_param("~worldFrame", "/world")
-    name = rospy.get_param("~name")
-    r = rospy.get_param("~rate")
-    x = rospy.get_param("~x")
-    y = rospy.get_param("~y")
-    z = rospy.get_param("~z")
+    name = rospy.get_param("~name","goal")
+    r = rospy.get_param("~rate","1")
+    x = rospy.get_param("~x","0.0")
+    y = rospy.get_param("~y","0.0")
+    z = rospy.get_param("~z","1.0")
+    print x+1
     radius = 0.3
     freq = 0.05
     pi = 3.14159
@@ -21,7 +22,7 @@ if __name__ == '__main__':
     rate = rospy.Rate(r)
 
     msg = PoseStamped()
-    msg.header.seq = 0
+    msg.header.seq = 10
     msg.header.stamp = rospy.Time.now()
     msg.header.frame_id = worldFrame
     msg.pose.position.x = x

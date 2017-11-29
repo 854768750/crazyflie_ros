@@ -21,8 +21,8 @@ PIDs:
     ki: 23000.0
     minOutput: 42000.0
     maxOutput: 65000.0
-    integratorMin: -2.2
-    integratorMax: 2.2
+    integratorMin: 1.7
+    integratorMax: 2.5
   Yaw:
     kp: -200.0
     kd: -20.0

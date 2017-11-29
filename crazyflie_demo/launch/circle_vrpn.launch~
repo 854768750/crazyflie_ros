@@ -4,8 +4,8 @@
   <arg name="ip" default="192.168.0.1" />
   <arg name="port" default="3883" />
 
-  <arg name="uri" default="radio://0/80/250K/E7E7E7E701" />
-  <arg name="frame" default="cf1" />
+  <arg name="uri" default="radio://0/80/250K/E7E7E7E703" />
+  <arg name="frame" default="cf3" />
   <arg name="x" default="0.0" />
   <arg name="y" default="-1.0" />
   <arg name="z" default="1.0" />
@@ -47,7 +47,7 @@
       <param name="z" value="$(arg z)" />
       <param name="radius" value="0.25" />
       <param name="freq" value="1" />
-      <param name="lap" value="5" />
+      <param name="lap" value="50" />
     </node>
 
     <node pkg="tf" type="static_transform_publisher" name="baselink_broadcaster" args="0 0 0 0 0 0 1 $(arg frame) /crazyflie/base_link 100" />

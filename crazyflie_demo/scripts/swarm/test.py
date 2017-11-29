@@ -1,5 +1,8 @@
 import csv
 import tf
+import numpy as np
+data = np.loadtxt("test.csv", skiprows=1, delimiter=',')
+print data
 with open('test.csv','rb') as myfile:
 	reader=csv.reader(myfile)
 	lines = [line for line in reader]

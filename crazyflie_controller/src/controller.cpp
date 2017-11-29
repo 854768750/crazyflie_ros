@@ -152,18 +152,17 @@ private:
             {
                 tf::StampedTransform transform;
                 m_listener.lookupTransform(m_worldFrame, m_frame, ros::Time(0), transform);
-                if (transform.getOrigin().z() > m_startZ + 0.40 || m_thrust > 55000)
+                if (transform.getOrigin().z() > m_startZ + 0.10 || m_thrust > 55000)
                 {
                     pidReset();
                     m_pidZ.setIntegral(m_thrust / m_pidZ.ki());
                     m_state = Automatic;
                     m_thrust = 0;
-					printf("auto\n");
                 }
                 else
                 {   
 		            //m_thrust = 50000;
-                    m_thrust += 30000 * dt;
+                    m_thrust += 20000 * dt;
                     geometry_msgs::Twist msg;
                     msg.linear.z = m_thrust;
                     m_pubNav.publish(msg);
@@ -278,7 +277,7 @@ int main(int argc, char **argv)
   std::string frame;
   n.getParam("frame", frame);
   double frequency;
-  n.param("frequency", frequency, 600.0);
+  n.param("frequency", frequency, 120.0);
   double battery_threshold;
   n.getParam("battery_threshold",battery_threshold);
 

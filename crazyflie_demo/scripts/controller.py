@@ -26,16 +26,6 @@ class Controller():
             rospy.wait_for_service('takeoff')
             rospy.loginfo("found takeoff service")
             self._takeoff = rospy.ServiceProxy('takeoff', Empty)
-
-	    #rospy.loginfo("waiting for start service")
-            #rospy.wait_for_service('start')
-            #rospy.loginfo("found start service")
-            #self._start = rospy.ServiceProxy('start', Empty)
-
-	    #rospy.loginfo("waiting for stop service")
-            #rospy.wait_for_service('stop')
-            #rospy.loginfo("found stop service")
-            #self._start = rospy.ServiceProxy('stop', Empty)
         else:
             self._land = None
             self._takeoff = None
