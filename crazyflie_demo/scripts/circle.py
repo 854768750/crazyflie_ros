@@ -14,19 +14,16 @@ class Circle():
         self.worldFrame = rospy.get_param("~worldFrame", "/world")
         self.frame = rospy.get_param("~frame")
 	self.radius = rospy.get_param("~radius")
+	self.freq = rospy.get_param("~freq")
         self.x = rospy.get_param("~x")
         self.y = rospy.get_param("~y")
         self.z = rospy.get_param("~z")
-	self.vel = rospy.get_param("~vel")
-        self.omega = rospy.get_param("~omega")
 	self.lap = rospy.get_param("~lap")
-	self.freq = self.omega/2/3.1415926
+	self.omega = self.freq*2*3.1415926
         self.pubGoal = rospy.Publisher('goal', PoseStamped, queue_size=1)
         self.listener = TransformListener()
         self.goals = goals
         self.goalIndex = 0
-	self.radius = self.vel / self.omega
-        #rospy.loginfo("radius:%lf  vel:%lf  omega:%lf",self.radius,self.vel,self.omega)
 
     def run(self):
         self.listener.waitForTransform(self.worldFrame, self.frame, rospy.Time(), rospy.Duration(5.0))
@@ -73,7 +70,7 @@ class Circle():
             goal.pose.position.x = self.x+self.radius*math.sin((t_now-t_start)*self.omega)
             goal.pose.position.y = self.y+self.radius-self.radius*math.cos((t_now-t_start)*self.omega)
             goal.pose.position.z = self.z
-            quaternion = tf.transformations.quaternion_from_euler(0, 0, self.goals[self.goalIndex-1][3])
+            quaternion = tf.transformations.quaternion_from_euler(0, 0, (t_now-t_start)*self.omega)
             goal.pose.orientation.x = quaternion[0]
             goal.pose.orientation.y = quaternion[1]
             goal.pose.orientation.z = quaternion[2]

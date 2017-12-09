@@ -7,7 +7,7 @@
   <arg name="uri" default="radio://0/80/250K/E7E7E7E703" />
   <arg name="frame" default="cf3" />
   <arg name="x" default="0.0" />
-  <arg name="y" default="-1.0" />
+  <arg name="y" default="0.0" />
   <arg name="z" default="1.0" />
 
   <include file="$(find crazyflie_driver)/launch/crazyflie_server.launch">
@@ -46,7 +46,7 @@
       <param name="y" value="$(arg y)" />
       <param name="z" value="$(arg z)" />
       <param name="radius" value="0.25" />
-      <param name="freq" value="1" />
+      <param name="freq" value="0.1" />
       <param name="lap" value="50" />
     </node>
 
@@ -79,8 +79,8 @@
   <!--node pkg="rqt_plot" type="rqt_plot" name="rqt_plot" /-->
 
 
-  <!-- run rviz >
+  <!-- run rviz -->
   <param name="robot_description" command="$(find xacro)/xacro.py $(find crazyflie_description)/urdf/crazyflie.urdf.xacro" />
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find crazyflie_demo)/launch/crazyflie_pos.rviz" required="true" /-->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find crazyflie_demo)/launch/crazyflie_pos.rviz" required="true" />
 
 </launch>

@@ -3,7 +3,9 @@ Panels:
     Help Height: 81
     Name: Displays
     Property Tree Widget:
-      Expanded: ~
+      Expanded:
+        - /Pose1
+        - /Pose8
       Splitter Ratio: 0.617241
     Tree Height: 562
   - Class: rviz/Selection
@@ -54,40 +56,19 @@ Visualization Manager:
       Plane Cell Count: 10
       Reference Frame: <Fixed Frame>
       Value: true
-    - Alpha: 1
-      Class: rviz/RobotModel
-      Collision Enabled: false
-      Enabled: true
-      Links:
-        All Links Enabled: true
-        Expand Joint Details: false
-        Expand Link Details: false
-        Expand Tree: false
-        Link Tree Style: ""
-        base_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-      Name: RobotModel
-      Robot Description: robot_description
-      TF Prefix: world/cf2
-      Update Interval: 0
-      Value: true
-      Visual Enabled: true
     - Alpha: 0.5
       Axes Length: 1
       Axes Radius: 0.1
       Class: rviz/Pose
       Color: 255; 25; 0
       Enabled: true
-      Head Length: 0.1
-      Head Radius: 0.05
+      Head Length: 1
+      Head Radius: 0.5
       Name: Pose
-      Shaft Length: 0.1
-      Shaft Radius: 0.02
+      Shaft Length: 1
+      Shaft Radius: 0.2
       Shape: Arrow
-      Topic: /crazyflie8/goal
+      Topic: /crazyflie/goal
       Unreliable: false
       Value: true
     - Alpha: 1
@@ -180,6 +161,21 @@ Visualization Manager:
       Topic: /crazyflie7/goal
       Unreliable: false
       Value: true
+    - Alpha: 1
+      Axes Length: 1
+      Axes Radius: 0.1
+      Class: rviz/Pose
+      Color: 255; 25; 0
+      Enabled: true
+      Head Length: 0.3
+      Head Radius: 0.1
+      Name: Pose
+      Shaft Length: 1
+      Shaft Radius: 0.05
+      Shape: Axes
+      Topic: /vrpn_client_node/cf3/pose
+      Unreliable: false
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -212,11 +208,11 @@ Visualization Manager:
         Value: false
       Name: Current View
       Near Clip Distance: 0.01
-      Scale: 80.4851
+      Scale: 168.624
       Target Frame: <Fixed Frame>
       Value: TopDownOrtho (rviz)
-      X: 0.0621233
-      Y: 0.944274
+      X: 0.0713451
+      Y: -0.063977
     Saved: ~
 Window Geometry:
   Displays:

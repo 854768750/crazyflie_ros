@@ -14,6 +14,7 @@ if __name__ == '__main__':
     x = rospy.get_param("~x","0.0")
     y = rospy.get_param("~y","0.0")
     z = rospy.get_param("~z","1.0")
+    yaw = rospy.get_param("~yaw","1.57")
     radius = 0.3
     freq = 0.05
     pi = 3.14159
@@ -27,7 +28,7 @@ if __name__ == '__main__':
     msg.pose.position.x = x
     msg.pose.position.y = y
     msg.pose.position.z = z
-    quaternion = tf.transformations.quaternion_from_euler(0, 0, 0)
+    quaternion = tf.transformations.quaternion_from_euler(0, 0, yaw)
     msg.pose.orientation.x = quaternion[0]
     msg.pose.orientation.y = quaternion[1]
     msg.pose.orientation.z = quaternion[2]
