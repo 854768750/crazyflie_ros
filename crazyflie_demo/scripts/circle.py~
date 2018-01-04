@@ -14,12 +14,12 @@ class Circle():
         self.worldFrame = rospy.get_param("~worldFrame", "/world")
         self.frame = rospy.get_param("~frame")
 	self.radius = rospy.get_param("~radius")
-	self.radius = rospy.get_param("~radius")
+	self.freq = rospy.get_param("~freq")
         self.x = rospy.get_param("~x")
         self.y = rospy.get_param("~y")
         self.z = rospy.get_param("~z")
 	self.lap = rospy.get_param("~lap")
-	self.freq = self.omega/2/3.1415926
+	self.omega = self.freq*2*3.1415926
         self.pubGoal = rospy.Publisher('goal', PoseStamped, queue_size=1)
         self.listener = TransformListener()
         self.goals = goals

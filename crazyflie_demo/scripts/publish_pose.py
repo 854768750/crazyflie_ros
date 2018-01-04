@@ -18,7 +18,6 @@ if __name__ == '__main__':
     radius = 0.3
     freq = 0.05
     pi = 3.14159
-
     rate = rospy.Rate(r)
 
     msg = PoseStamped()

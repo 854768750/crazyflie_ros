@@ -29,6 +29,16 @@ class Controller():
         else:
             self._land = None
             self._takeoff = None
+            
+
+        if use_start:
+            rospy.loginfo("waiting for start service")
+            rospy.wait_for_service('/start')
+            rospy.loginfo("found start service")
+            self._start = rospy.ServiceProxy('/start', Empty)
+        else:
+            self._start = None
+
 
         # subscribe to the joystick at the end to make sure that all required
         # services were found
@@ -44,8 +54,8 @@ class Controller():
                     self._emergency()
                 if i == 2 and data.buttons[i] == 1 and self._takeoff != None:
                     self._takeoff()
-		#if i == 3 and data.buttons[i] == 1 and self._start != None:
-                    #self._start()
+		if i == 3 and data.buttons[i] == 1 and self._start != None:
+                    self._start()
                 if i == 4 and data.buttons[i] == 1:
                     value = int(rospy.get_param("ring/headlightEnable"))
                     if value == 0:
@@ -60,6 +70,7 @@ class Controller():
 if __name__ == '__main__':
     rospy.init_node('crazyflie_demo_controller', anonymous=True)
     use_controller = rospy.get_param("~use_crazyflie_controller", False)
+    use_start = rospy.get_param("~use_start", False)
     joy_topic = rospy.get_param("~joy_topic", "joy")
     controller = Controller(use_controller, joy_topic)
     rospy.spin()

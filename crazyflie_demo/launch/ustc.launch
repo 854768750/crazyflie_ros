@@ -37,6 +37,11 @@
     <param name="dev" value="$(arg joy_dev)" />
   </node>
 
+  <!--node name="joystick_controller" pkg="crazyflie_demo" type="controller.py" output="screen">
+    <param name="use_crazyflie_controller" value="True" />
+    <param name="joy_topic" value="joy" />
+  </node-->
+
   <!--group ns="crazyflie1">
     <include file="$(find crazyflie_driver)/launch/crazyflie_add.launch">
       <arg name="uri" value="$(arg uri1)" />
@@ -83,7 +88,7 @@
     </include>
   </group-->
 
-  <group ns="crazyflie3">
+  <!--group ns="crazyflie3">
     <include file="$(find crazyflie_driver)/launch/crazyflie_add.launch">
       <arg name="uri" value="$(arg uri3)" />
       <arg name="tf_prefix" value="crazyflie3" />
@@ -95,18 +100,22 @@
       <arg name="enable_logging_battery" default="False" />
     </include>
 
+    <node name="joy" pkg="joy" type="joy_node" output="screen">
+      <param name="dev" value="$(arg joy_dev)" />
+    </node>
+
     <node name="joystick_controller" pkg="crazyflie_demo" type="controller.py" output="screen">
       <param name="use_crazyflie_controller" value="True" />
-      <param name="joy_topic" value="/joy" />
+      <param name="joy_topic" value="joy" />
     </node>
 
     <include file="$(find crazyflie_controller)/launch/crazyflie2_3.launch">
       <arg name="frame" value="$(arg frame3)" />
       <arg name="battery_threshold" default="$(arg battery_threshold)"/>
     </include>
-  </group>
+  </group-->
 
-  <group ns="crazyflie4">
+  <!--group ns="crazyflie4">
     <include file="$(find crazyflie_driver)/launch/crazyflie_add.launch">
       <arg name="uri" value="$(arg uri4)" />
       <arg name="tf_prefix" value="crazyflie4" />
@@ -196,9 +205,9 @@
       <arg name="frame" value="$(arg frame7)" />
       <arg name="battery_threshold" default="$(arg battery_threshold)"/>
     </include>
-  </group>
+  </group-->
 
-  <!--group ns="crazyflie8">
+  <group ns="crazyflie8">
     <include file="$(find crazyflie_driver)/launch/crazyflie_add.launch">
       <arg name="uri" value="$(arg uri8)" />
       <arg name="tf_prefix" value="crazyflie8" />
@@ -210,8 +219,13 @@
       <arg name="enable_logging_battery" default="False" />
     </include>
 
+    <!--node name="joy" pkg="joy" type="joy_node" output="screen">
+      <param name="dev" value="$(arg joy_dev)" />
+    </node-->
+
     <node name="joystick_controller" pkg="crazyflie_demo" type="controller.py" output="screen">
       <param name="use_crazyflie_controller" value="True" />
+      <param name="use_start" value="True"/>
       <param name="joy_topic" value="/joy" />
     </node>
 
@@ -219,9 +233,9 @@
       <arg name="frame" value="$(arg frame8)" />
       <arg name="battery_threshold" default="$(arg battery_threshold)"/>
     </include>
-  </group-->
+  </group>
 
-  <group ns="crazyflie9">
+  <!--group ns="crazyflie9">
     <include file="$(find crazyflie_driver)/launch/crazyflie_add.launch">
       <arg name="uri" value="$(arg uri9)" />
       <arg name="tf_prefix" value="crazyflie9" />
@@ -242,7 +256,7 @@
       <arg name="frame" value="$(arg frame9)" />
       <arg name="battery_threshold" default="$(arg battery_threshold)"/>
     </include>
-  </group>
+  </group-->
 
   <!--group ns="crazyflie10">
     <include file="$(find crazyflie_driver)/launch/crazyflie_add.launch">
@@ -278,7 +292,7 @@
 
   
   <!-- run vrpn client -->
-  <node pkg="vrpn_client_ros" type="vrpn_client_node" name="vrpn_client_node" output="screen" required="true">
+  <!--node pkg="vrpn_client_ros" type="vrpn_client_node" name="vrpn_client_node" output="screen" required="true">
     <rosparam subst_value="true">
         server: 192.168.0.1
         port: 3883
@@ -296,10 +310,10 @@
         #- FirstTracker
         #- SecondTracker
     </rosparam>
-  </node>
+  </node-->
 
   <!--run rviz -->
-  <!--param name="robot_description" command="$(find xacro)/xacro.py $(find crazyflie_description)/urdf/crazyflie.urdf.xacro" />
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find crazyflie_demo)/launch/crazyflie_pos.rviz" required="true" /-->
+  <param name="robot_description" command="$(find xacro)/xacro.py $(find crazyflie_description)/urdf/crazyflie.urdf.xacro" />
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find crazyflie_demo)/launch/crazyflie_pos.rviz" required="true" />
 
 </launch>

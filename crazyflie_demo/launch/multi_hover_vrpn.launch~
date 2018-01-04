@@ -23,25 +23,27 @@
   <arg name="y3" default="0.1" />
   <arg name="z3" default="1" />
 
-  <arg name="uri4" default="radio://0/80/250K/E7E7E7E704" />
-  <arg name="frame4" default="/cf4" />
-  <arg name="x4" default="0.7" />
-  <arg name="y4" default="0.1" />
-  <arg name="z4" default="1" />
+  <arg name="uri4" default="radio://0/80/250K/E7E7E7E708" />
+  <arg name="frame4" default="/cf8" />
+  <arg name="x4" default="0.3875" />
+  <arg name="y4" default="-0.2375" />
+  <arg name="z4" default="0.75" />
 
-  <arg name="uri5" default="radio://0/80/250K/E7E7E7E705" />
-  <arg name="frame5" default="/cf5" />
+  <arg name="uri5" default="radio://0/80/250K/E7E7E7E709" />
+  <arg name="frame5" default="/cf9" />
   <arg name="x5" default="0.7" />
   <arg name="y5" default="-0.4" />
   <arg name="z5" default="1" />
 
+  <arg name="yaw" default="0.0" />
 
-  <!--include file="$(find crazyflie_driver)/launch/crazyflie_server.launch">
+
+  <include file="$(find crazyflie_driver)/launch/crazyflie_server.launch">
   </include>
 
   <node name="joy" pkg="joy" type="joy_node" output="screen">
     <param name="dev" value="$(arg joy_dev)" />
-  </node-->
+  </node>
 
   <!--group ns="crazyflie1">
     <include file="$(find crazyflie_driver)/launch/crazyflie_add.launch">
@@ -122,7 +124,7 @@
       <param name="joy_topic" value="/joy" />
     </node>
 
-    <include file="$(find crazyflie_controller)/launch/crazyflie2_3.launch">
+    <include file="$(find crazyflie_controller)/lauy0+ratio*(15.3-height/2+1)nch/crazyflie2_3.launch">
       <arg name="frame" value="$(arg frame3)" />
       <arg name="battery_threshold" default="$(arg battery_threshold)"/>
     </include>
@@ -139,10 +141,10 @@
     </node>
   </group-->
 
-  <!--group ns="crazyflie4">
+  <group ns="crazyflie8">
     <include file="$(find crazyflie_driver)/launch/crazyflie_add.launch">
       <arg name="uri" value="$(arg uri4)" />
-      <arg name="tf_prefix" value="crazyflie4" />
+      <arg name="tf_prefix" value="crazyflie8" />
       <arg name="enable_logging" value="False" />
       <arg name="enable_logging_imu" default="False" />
       <arg name="enable_logging_temperature" default="False" />
@@ -156,27 +158,28 @@
       <param name="joy_topic" value="/joy" />
     </node>
 
-    <include file="$(find crazyflie_controller)/launch/crazyflie2_4.launch">
+    <include file="$(find crazyflie_controller)/launch/crazyflie2_8.launch">
       <arg name="frame" value="$(arg frame4)" />
       <arg name="battery_threshold" default="$(arg battery_threshold)"/>
     </include>
+ 
+    <node name="joy" pkg="joy" type="joy_node" output="screen">
+      <param name="dev" value="$(arg joy_dev)" />
+    </node>
 
-    <node name="pose" pkg="crazyflie_demo" type="publish_pose.py" output="screen">
+    <node name="pose" pkg="crazyflie_demo" type="publish_pose_teleop.py" output="screen">
       <param name="name" value="goal" />
       <param name="rate" value="120" />
       <param name="x" value="$(arg x4)" />
       <param name="y" value="$(arg y4)" />
       <param name="z" value="$(arg z4)" />
     </node>
-    <node name="pose" pkg="crazyflie_demo" type="demo2.py" output="screen">
-      <param name="frame" value="$(arg frame4)" />
-    </node>
-  </group-->
+  </group>
 
-  <!--group ns="crazyflie5">
+  <group ns="crazyflie">
     <include file="$(find crazyflie_driver)/launch/crazyflie_add.launch">
       <arg name="uri" value="$(arg uri5)" />
-      <arg name="tf_prefix" value="crazyflie5" />
+      <arg name="tf_prefix" value="crazyflie" />
       <arg name="enable_logging" value="False" />
       <arg name="enable_logging_imu" default="False" />
       <arg name="enable_logging_temperature" default="False" />
@@ -190,7 +193,7 @@
       <param name="joy_topic" value="/joy" />
     </node>
 
-    <include file="$(find crazyflie_controller)/launch/crazyflie2_5.launch">
+    <include file="$(find crazyflie_controller)/launch/crazyflie2_9.launch">
       <arg name="frame" value="$(arg frame5)" />
       <arg name="battery_threshold" default="$(arg battery_threshold)"/>
     </include>
@@ -202,23 +205,20 @@
       <param name="y" value="$(arg y5)" />
       <param name="z" value="$(arg z5)" />
     </node>
-    <node name="pose" pkg="crazyflie_demo" type="demo3.py" output="screen">
-      <param name="frame" value="$(arg frame5)" />
-    </node>
-  </group-->
+  </group>
 
-  <node name="pose" pkg="crazyflie_demo" type="ustc.py" output="screen">
+  <!--node name="pose" pkg="crazyflie_demo" type="ustc.py" output="screen">
     <param name="name" value="goal" />
     <param name="rate" value="30" />
-    <!--param name="x" value="0.0" /-->
+    <param name="x" value="0.0" />
     <param name="y" value="0.0" />
     <param name="z" value="1.0" />
     <param name="csv_file" value="$(find crazyflie_demo)/scripts/ustc.csv" />
-  </node>
+  </node-->
 
   
   <!-- run vrpn client -->
-  <!--node pkg="vrpn_client_ros" type="vrpn_client_node" name="vrpn_client_node" output="screen" required="true">
+  <node pkg="vrpn_client_ros" type="vrpn_client_node" name="vrpn_client_node" output="screen" required="true">
     <rosparam subst_value="true">
         server: 192.168.0.1
         port: 3883
@@ -236,7 +236,7 @@
         #- FirstTracker
         #- SecondTracker
     </rosparam>
-  </node-->
+  </node>
 
   <!--run rviz -->
   <!--param name="robot_description" command="$(find xacro)/xacro.py $(find crazyflie_description)/urdf/crazyflie.urdf.xacro" />

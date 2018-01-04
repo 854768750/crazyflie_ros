@@ -4,16 +4,18 @@
   <arg name="ip" default="192.168.0.1" />
   <arg name="port" default="3883" />
 
-  <arg name="uri" default="radio://0/80/250K/E7E7E7E703" />
-  <arg name="frame" default="cf3" />
+  <arg name="uri" default="radio://0/80/250K/E7E7E7E709" />
+  <arg name="frame" default="cf9" />
   <arg name="battery_threshold" default="3.2"/>
-  <arg name="x" default="1.1" />
-  <arg name="y" default="-0.8" />
-  <arg name="z" default="1" />
-  <arg name="yaw" default="1" />
+  <arg name="x" default="0.3875" />
+  <arg name="y" default="-0.2375" />
+  <arg name="z" default="1.0" />
+  <arg name="yaw" default="0.0" />
 
   <include file="$(find crazyflie_driver)/launch/crazyflie_server.launch">
   </include>
+
+
 
   <group ns="crazyflie">
     <include file="$(find crazyflie_driver)/launch/crazyflie_add.launch">
@@ -33,12 +35,21 @@
 
     <node name="joystick_controller" pkg="crazyflie_demo" type="controller.py" output="screen">
       <param name="use_crazyflie_controller" value="True" />
+      <param name="joy_topic" value="joy" />
     </node>
 
-    <include file="$(find crazyflie_controller)/launch/crazyflie2_3.launch">
+    <include file="$(find crazyflie_controller)/launch/crazyflie2_9.launch">
       <arg name="frame" value="$(arg frame)" />
       <arg name="battery_threshold" default="$(arg battery_threshold)"/>
     </include>
+
+    <!--node name="pose" pkg="crazyflie_demo" type="publish_pose_teleop.py" output="screen">
+      <param name="name" value="goal" />
+      <param name="rate" value="120" />
+      <param name="x" value="$(arg x)" />
+      <param name="y" value="$(arg y)" />
+      <param name="z" value="$(arg z)" />
+    </node-->
 
     <node name="pose" pkg="crazyflie_demo" type="publish_pose.py" output="screen">
       <param name="name" value="goal" />
